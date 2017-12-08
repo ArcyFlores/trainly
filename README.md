@@ -7,7 +7,7 @@
 
 ### Description of Program Files 
 
-ReportTasks[i].php files are the reports required of the project. 
+ReportTasks.php files are the reports required of the project. 
 
 adminhome.php - Administrator Home Page
 adminstuhome.php - Administrator's Home page

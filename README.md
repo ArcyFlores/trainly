@@ -8,10 +8,10 @@
 
 1. XAMPP is required to manage server and SQL database. Can be downloaded [here](https://www.apachefriends.org/index.html). 
 2. [Download](https://github.com/ArcyFlores/trainly/archive/master.zip) trainly directory
-3. place trainly file in /XAMPP/xamppfiles/htdocs/trainly 
-4. open XAMPP and run server, open application
-5. under PHPMyAdmin, hit "import" tab and upload DDL to create DB and then DML to create data
-6. open site at localhost/trainly 
+3. Place trainly-master file in /XAMPP/xamppfiles/htdocs/ 
+4. Open XAMPP and run server, click on "Go To Application"
+5. Under PHPMyAdmin, hit "import" tab and upload DDL.sql to create trainly database and then upload DML.sql to create data
+6. While server is running, open site at localhost/trainly-master 
 
 ### Description of Program Files 
 

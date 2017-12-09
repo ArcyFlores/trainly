@@ -6,37 +6,41 @@
     $dbname = "Trainly";
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
-
+    /* Checks if the user clicked on the enroll button*/
     if (isset($_POST['enroll_btn']))
     {
+        /* Sets cid to the course id selected by user*/
         $cid = mysql_real_escape_string($_POST['course']);
-
+    
+        /*Gets current session studentID */
         $email = $_SESSION['email'];
         $idsql = "SELECT s.StudentID FROM Student s WHERE s.Email = '$email'";
         $result2 = mysqli_query($conn, $idsql);
-                 
-        //get StudentID 
+              
         $row = mysqli_fetch_assoc($result2);
         $id = ($row['StudentID']);
-        $courseids = array();
         
+        /*Creates an array to append all course ids that user is enrolled in */
+        $courseids = array();
         $listcoursesql = "SELECT CourseID FROM Enroll_in WHERE StudentID = '$id'";
         $listcourseresult = mysqli_query($conn, $listcoursesql);
-    
         while ($courselistrow = mysqli_fetch_assoc($listcourseresult))
         {
             array_push($courseids, $courselistrow['CourseID']);
         }
         
+        /*Checks is user is already enrolled in selected course id*/
         $count = 0;
         for ($x=0; $x <sizeof($courseids); $x++)
         {
+            /*If user is already enrolled, display error message*/
             if ($cid == $courseids[$x])
             {
                 echo "You are already interested in this course";
                 $count++;
             }
         }
+        /* If user is not already enrolled, enroll student sql */
         if ($count == 0)
         {
             $sql = "INSERT INTO Interest (StudentID, CourseID) VALUES ('$id', '$cid')";
@@ -44,6 +48,7 @@
             echo "Your interest has been noted";
         }
         
+        /*After enroll, back to home page to view updated courses list*/
         header("Location: home.php");
     }
 ?>
@@ -52,11 +57,8 @@
 <head>
      <title>Interest</title>
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
-
         <link rel="stylesheet" href="home.css" type="text/css" media="screen">
 </head>
-
-
     <body>
 
     <div class="header">
@@ -72,9 +74,10 @@
         
         <h4>List of Courses Available</h4>
         <?php
+        
+        /*Lists all the courses that have been created already in the database for user selection*/
         $listcoursesql = "SELECT CourseID, Name FROM Course";
         $listcourseresult = mysqli_query($conn, $listcoursesql);
-    
         while ($courselistrow = mysqli_fetch_assoc($listcourseresult))
         {
             echo $courselistrow['CourseID'] . "  " . $courselistrow['Name'] . "<br>";

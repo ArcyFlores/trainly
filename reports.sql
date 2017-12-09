@@ -182,7 +182,7 @@ COMPLEXITY: 7 POINTS
 		item in multiple playlists
 */
 
-SELECT DISTINCT p.PID, cm.Name, c.Name, 
+SELECT DISTINCT p.PID, cm.Name, c.Name AS Name1, 
 (SELECT COUNT(cm.CMID)
 		FROM C_Material cm INNER JOIN Course c ON cm.CourseID = c.CourseID
 			INNER JOIN CM_Complete cc ON cm.CMID = cc.CMID AND cc.CourseID = c.CourseID

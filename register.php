@@ -1,14 +1,18 @@
 
 <?php
+    /*Information needed to connect to database*/
     $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "Trainly";
-
+    
+    /*Connects to database*/
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 
+    /*Checks if user clicked on register button*/
     if (isset($_POST['register_btn']))
     {
+        /*sets variables to the fields user inputted*/
         session_start();
         $first = mysql_real_escape_string($_POST['first']);
         $last = mysql_real_escape_string($_POST['last']);
@@ -23,17 +27,19 @@
         $affl = mysql_real_escape_string($_POST['affl']);
         $web = mysql_real_escape_string($_POST['web']);
         
-        
+        /*Checks is user if registering as faculty*/
         if(isset($_POST['faculty']))
         {
             
+            /*Checks if both passwords match, if not display error message*/
             if ($pass == $pass2)
             {
             #$pass = md5($pass); 
+            /*Hash password*/
             $pass = password_hash($pass,PASSWORD_DEFAULT);  #password_hash() will generate a random number used as salt and saved under password column in database
         
             
-
+            /* Add user to stuent table*/
             $sql = "INSERT INTO Student (Email, Password, Student_pic, F_Name, L_Name, Street, City, Country, ZipCode) VALUES ('$email', '$pass', '$pic', '$first', '$last' , '$street' , '$city' , '$country' , '$zip')";
             
             $result = mysqli_query($conn, $sql);
@@ -48,11 +54,9 @@
             $_SESSION['country'] = $country;
             $_SESSION['zip'] = $zip;
             
-            
+            //get current user StudentID 
             $idsql = "SELECT s.StudentID FROM Student s WHERE s.Email = '$email'";
-            $result2 = mysqli_query($conn, $idsql);
-                 
-            //get StudentID 
+            $result2 = mysqli_query($conn, $idsql); 
             $row = mysqli_fetch_assoc($result2);
             $id = ($row['StudentID']);
             
@@ -63,46 +67,50 @@
             $sql1 = "INSERT INTO Faculty (StudentID, Title, Affiliation, Work_Website) VALUES ('$id', '$title', '$affl' , '$web')";
             mysqli_query($conn, $sql1);
                 
+            /*Redirect to faculty home page if faculty*/
             header("Location: homefaculty.php");
             
             }
         }
+        
+        /*Else if student*/
         else
         {
+            /*Checks if both passwords match, if not display error message*/
             if ($pass == $pass2)
             {
-            $pass = password_hash($pass,PASSWORD_DEFAULT);  #password_hash() will generate a random number used as salt and saved under password column in database
-            $sql = "INSERT INTO Student (Email, Password, Student_pic, F_Name, L_Name, Street, City, Country, ZipCode) VALUES ('$email', '$pass', '$pic', '$first', '$last' , '$street' , '$city' , '$country' , '$zip')";
+                /*Hash password*/
+                $pass = password_hash($pass,PASSWORD_DEFAULT);  #password_hash() will generate a random number used as salt and saved under password column in database
+                /*Insert user into student table*/
+                $sql = "INSERT INTO Student (Email, Password, Student_pic, F_Name, L_Name, Street, City, Country, ZipCode) VALUES ('$email', '$pass', '$pic', '$first', '$last' , '$street' , '$city' , '$country' , '$zip')";
             
-            $result = mysqli_query($conn, $sql);
+                $result = mysqli_query($conn, $sql);
             
+                /*set user information to respective variables*/
+                $_SESSION['message'] = "You are now logged in";
+                $_SESSION['email'] = $email;
+                $_SESSION['first'] = $first;
+                $_SESSION['last'] = $last;
+                $_SESSION['street'] = $street;
+                $_SESSION['city'] = $city;
+                $_SESSION['country'] = $country;
+                $_SESSION['zip'] = $zip;
             
-            $_SESSION['message'] = "You are now logged in";
-            $_SESSION['email'] = $email;
-            $_SESSION['first'] = $first;
-            $_SESSION['last'] = $last;
-            $_SESSION['street'] = $street;
-            $_SESSION['city'] = $city;
-            $_SESSION['country'] = $country;
-            $_SESSION['zip'] = $zip;
-            
-            
-            $idsql = "SELECT s.StudentID FROM Student s WHERE s.Email = '$email'";
+                /*Get current user studentId */
+                $idsql = "SELECT s.StudentID FROM Student s WHERE s.Email = '$email'";
                 $result2 = mysqli_query($conn, $idsql);
-                 
-                //get StudentID 
                 $row = mysqli_fetch_assoc($result2);
                 $id = ($row['StudentID']);
             
             
-            $_SESSION['StudentID'] = $id;
+                $_SESSION['StudentID'] = $id;
             
-            
-            header("Location: home.php");
+                /*redirects student to home page*/
+                header("Location: home.php");
             }
             else
             {
-            $_SESSION['message'] = "The two passwords do not match";
+                $_SESSION['message'] = "The two passwords do not match";
             }
         }
     

@@ -1,3 +1,4 @@
+<!-- report 4 -->
 <html>
     <head>
         <title>Incomplete</title>
@@ -29,7 +30,7 @@
        <h3 class="content-head">Report Task 4:</h3>
    <h3>Get a user inputted students incomplete materials that s/he included in playlists they created. List the playlist id along with the course material name and the number of unique incomplete tasks. Test case: We need to change some data in cm_complete table, for example, change the cFlag of CMID 11 to 0, then input "1"</h3>
 
-<!--This div can be deleted if it's not necessary-->
+<!--sql code that gets result for report 4-->
 
     <div class="sql-query">
     <p>SQL command: <br>
@@ -69,8 +70,8 @@ ORDER BY p.PID, cm.CMID<br><br>
         <input placeholder="Student ID" type="text" name ="StudentID" required>
         <input type="submit" class="pure-button" name= "report_task4_btn" value = "Search">
     </form>
-
-
+       
+<!-- connect to db -->
 <?php
     session_start();
     $servername = "localhost";
@@ -85,7 +86,7 @@ ORDER BY p.PID, cm.CMID<br><br>
     {
         $StudentID = mysql_real_escape_string($_POST['StudentID']);
 
-
+// query db
         $sql_reporttask4 = 
         "SELECT DISTINCT p.PID, cm.Name, c.Name AS Name1, 
         (SELECT COUNT(cm.CMID)
@@ -116,7 +117,7 @@ ORDER BY p.PID, cm.CMID<br><br>
     )
     ORDER BY p.PID, cm.CMID";
 
-
+// get results and display in a table
         $result= mysqli_query($conn, $sql_reporttask4);
         #$row = mysqli_fetch_assoc($result);
         echo "<table class='pure-table'> 

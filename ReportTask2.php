@@ -1,3 +1,4 @@
+<!-- report 2 -->
 <html>
     <head>
         <title>B Grade</title>
@@ -29,7 +30,7 @@
    <h3>NEEDS USER INPUT Find Students in USER INPUTED COURSE NAME that have an average over 80% in quiz scores. Test case: input "CourseName1"</h3>
 
 
-    <!--This div can be deleted if it's not necessary-->
+    <!--query for 2nd report-->
 
         <div class="sql-query">
         <p>SQL command: <br>
@@ -53,7 +54,7 @@
             <input placeholder="Course Name" type="text" name ="CourseName" required>
             <input type="submit" class="pure-button" name= "report_task2_btn" value = "Search">
         </form>
-
+<!-- connect to db -->
             <?php
         session_start();
         $servername = "localhost";
@@ -68,7 +69,7 @@
         {
             $CourseName = mysql_real_escape_string($_POST['CourseName']);
 
-
+//query db 
             $sql_reporttask2 = 
             "SELECT s.F_Name AS First_Name, s.L_Name AS Last_Name, ROUND(AVG(cc.Score),2) AS Average_Score
                 FROM Student s INNER JOIN CM_Complete cc ON s.StudentID = cc.StudentID
@@ -83,7 +84,7 @@
             GROUP BY s.StudentID
             HAVING (AVG(cc.Score) > 80)
             ORDER BY s.L_Name, s.F_Name";
-
+// get results
 
             $result= mysqli_query($conn, $sql_reporttask2);
             #$row = mysqli_fetch_assoc($result);
@@ -96,6 +97,7 @@
                 </tr>
             <thead>
             <tbody>";
+//             display results
             while($taskresult_row = mysqli_fetch_assoc($result))
             {
                 $First_Name = $taskresult_row['First_Name'];        

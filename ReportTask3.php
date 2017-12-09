@@ -1,3 +1,4 @@
+<!-- report task 3 -->
 <html>
     <head>
         <title>Quizzes</title>
@@ -33,7 +34,7 @@
     secondary topics</h3> 
 
 
-<!--This div can be deleted if it's not necessary-->
+<!--query to get results to 3rd report-->
 
     <div class="sql-query">
     <p>SQL command: <br>
@@ -78,7 +79,7 @@ ORDER BY c.Name, s1.F_Name, s1.L_Name<br>
         <input type="submit" class="pure-button" name= "report_task3_btn" value = "Click to Run">
     </form>
 
-
+<!-- connect to DB -->
 <?php
     session_start();
     $servername = "localhost";
@@ -88,7 +89,7 @@ ORDER BY c.Name, s1.F_Name, s1.L_Name<br>
     $dbname = "Trainly";
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
-
+// query db
     if (isset($_POST['report_task3_btn']))
     {
         
@@ -127,8 +128,7 @@ ORDER BY c.Name, s1.F_Name, s1.L_Name<br>
             )
             ORDER BY c.Name, s1.F_Name, s1.L_Name";
 
-
-
+// display results in table on DOM
 
         #$sql_reporttask1 = "SELECT F_Name as First_Name, L_Name as Last_Name FROM student";
 

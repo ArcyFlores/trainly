@@ -20,7 +20,7 @@
         $row = mysqli_fetch_assoc($result2);
         $id = ($row['StudentID']);
         
-        /*Creates an array to append all course ids that user is enrolled in */
+        /*Creates an array to append all course ids that user is already interested in */
         $courseids = array();
         $listcoursesql = "SELECT CourseID FROM Enroll_in WHERE StudentID = '$id'";
         $listcourseresult = mysqli_query($conn, $listcoursesql);
@@ -40,7 +40,7 @@
                 $count++;
             }
         }
-        /* If user is not already enrolled, enroll student sql */
+        /* If user is not already interested, set as an interest for student sql */
         if ($count == 0)
         {
             $sql = "INSERT INTO Interest (StudentID, CourseID) VALUES ('$id', '$cid')";

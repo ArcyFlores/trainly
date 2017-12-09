@@ -1,3 +1,5 @@
+<!-- connect to db -->
+
 <?php
     session_start();
 
@@ -41,7 +43,7 @@
     </div>
     <div class="content">
           <?php
-    
+//     get information from login to get correct user
         $email = $_SESSION['email'];
         $idsql = "SELECT s.StudentID FROM Student s WHERE s.Email = '$email'";
         $fnamesql = "SELECT s.F_Name FROM Student s WHERE s.Email = '$email'";
@@ -58,7 +60,8 @@
         $id = ($row['StudentID']);
         $fname = ($row2['F_Name']);
         $lname = ($row3['L_Name']);
-            
+        
+// query to enroll in a course            
     $enrollcoursesql = "SELECT * FROM
         (SELECT c.Name AS Course_Name, c.Pri_Topic AS Primary_Topic, st.Topic AS Secondary_Topics, 'Enrolled' AS Category
         FROM ((Student s INNER JOIN Enroll_in e ON s.StudentID = e.StudentID)
@@ -93,8 +96,6 @@
                 $sectopic = $enrollcourserow['Secondary_Topics'];
                 echo "<tr><td>".$coursename."</td><td>".$pritopic."</td><td>".$sectopic."</td></tr>";  
                 }
-
-
 
             echo "</table>";
             
@@ -210,7 +211,7 @@
 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
     <h3 class="content-subhead">Your Course Materials:</h3>
     <?php 
-    
+//     query to get course materials for student that is logged in
     $cmsql = "SELECT cm.Name AS Course_Material, IF(cc.cFlag =1, 'C', 'I') AS Complete_Incomplete
     FROM C_Material cm INNER JOIN Course c ON cm.CourseID = c.CourseID
     INNER JOIN CM_Complete cc ON cm.CMID = cc.CMID
@@ -228,6 +229,7 @@
    ?>
 </div>
 
+<!--   complete and incomplete coure materials     -->
 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
     <table class="pure-table"><thead><tr><th><b>Course Material</b></th><th><b>Complete/Incomplete</b></th></tr></thead>
         <?php
@@ -240,6 +242,7 @@
     ?>
     </table><br>
 
+<!--   mark a course material as complete   -->
     <?php
         if (isset($_POST['comp_btn']))
         {
@@ -272,7 +275,7 @@
         }
     ?>
     
-
+<!-- mark a course as complete -->
      <form class="pure-form pure-form-aligned" method = POST action ="">
         <input type="text" name ="course" placeholder= "Course Material Name">
         <input type="submit" class="pure-button" name= "comp_btn" value = "Mark as Complete">

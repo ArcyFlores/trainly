@@ -490,7 +490,7 @@ VALUES (9, 1, 1, '11/15/2017', '10:00', 82 ,1);
 INSERT INTO `CM_Complete`(`CMID`, `CourseID`,`StudentID`, `Date`, `Time`, `Score`, `cFLag` ) 
 VALUES (10, 1, 1, '11/15/2017', '10:00', 74 ,1);
 INSERT INTO `CM_Complete`(`CMID`, `CourseID`,`StudentID`, `Date`, `Time`, `Score`, `cFLag` ) 
-VALUES (11, 1, 1, '11/15/2017', '10:00', 90 ,1);
+VALUES (11, 1, 1, '11/15/2017', '10:00', 90 ,0);
 
 /** STUDENT 2 COURSE MATERIAL RESPONSIBILITIES FOR COURSE 1 **/
 INSERT INTO `CM_Complete`(`CMID`, `CourseID`,`StudentID`, `Date`, `Time`, `Score`, `cFLag` ) 
@@ -514,7 +514,7 @@ VALUES (9, 1, 2, '11/15/2017', '10:00', 66 ,1);
 INSERT INTO `CM_Complete`(`CMID`, `CourseID`,`StudentID`, `Date`, `Time`, `Score`, `cFLag` ) 
 VALUES (10, 1, 2, '11/15/2017', '10:00', 73 ,1);
 INSERT INTO `CM_Complete`(`CMID`, `CourseID`,`StudentID`, `Date`, `Time`, `Score`, `cFLag` ) 
-VALUES (11, 1, 2, '11/15/2017', '10:00', 74 ,1);
+VALUES (11, 1, 2, '11/15/2017', '10:00', 74 ,0);
 
 /**FACULTY/ADMIN 11 AND 21 CREATED COURSE 9 TOGETHER**/
 INSERT INTO `F_Create` (`FacultyID`, `CourseID`, `Date`) VALUES (11,1, '4-4-2013');

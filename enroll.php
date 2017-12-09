@@ -1,27 +1,34 @@
 <?php
+
+    /*Informatino to connect to database*/
     session_start();
     $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "Trainly";
-
+    /*connects to database*/
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 
+    /*Checks if user clicks on enroll button */
     if (isset($_POST['enroll_btn']))
     {
+        /*Sets cid to user inputted CourseId */
         $cid = mysql_real_escape_string($_POST['course']);
 
+        /*Get current users studentID */ 
         $email = $_SESSION['email'];
         $idsql = "SELECT s.StudentID FROM Student s WHERE s.Email = '$email'";
         $result2 = mysqli_query($conn, $idsql);
-                 
-        //get StudentID 
         $row = mysqli_fetch_assoc($result2);
         $id = ($row['StudentID']);
         $conf_code = "ABS192";
+        
+        /*Sets the format for date and time*/
         $date = date('d-m-Y');
         $time = date('H:i:s');
 
+        
+        /*Create an array and append all the courses availble to it*/
         $courseids = array();
         
         $listcoursesql = "SELECT CourseID FROM enroll_in WHERE StudentID = '$id'";
@@ -32,15 +39,19 @@
             array_push($courseids, $courselistrow['CourseID']);
         }
         
+        /*Checks if user is already enrolled in the selected course*/
         $count = 0;
         for ($x=0; $x <sizeof($courseids); $x++)
         {
+            /*If already enrolled, display error message */
             if ($cid == $courseids[$x])
             {
                 echo "You are already enrolled in the selected course";
                 $count++;
             }
         }
+        
+        /*checks is user isnt enrolled, then enrolls student to selected course*/
         if ($count == 0)
         {
             $sql = "INSERT INTO enroll_in (StudentID, CourseID, Conf_Code, Date, Time) VALUES ('$id', '$cid', '$conf_code', '$date' , '$time')";
@@ -48,6 +59,7 @@
             echo "You have been successfully enrolled";
         }
         
+        /*goes back to home page to display updated information */
         header("Location: home.php");
     }
 ?>
@@ -83,6 +95,7 @@
         <h3 class="content-head">List of Courses Available</h4>
         <div class="content">
             <?php
+            /* Gets the list of all available courses created to choose from */
             $listcoursesql = "SELECT CourseID, Name FROM Course";
             $listcourseresult = mysqli_query($conn, $listcoursesql);
         

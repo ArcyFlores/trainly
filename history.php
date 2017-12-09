@@ -28,33 +28,33 @@
         <div class="container-padding">
             <h2 class="content-subhead">Your Course History</h3>
              <?php
+            
+            /*Information needed for database connection*/
     session_start();
     $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "Trainly";
-
+    /*Connect to database*/
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     
-
+    /*Set id to current users studentId */
     $id = $_SESSION['StudentID'];
 
-
+    /*SQL to get information related to account history*/
     $ahistory = "SELECT c.Name AS Course_Name, e.Date AS Enrollment_Date, 
-e.C_date AS Completion_Date, c.Cost AS Price, e.Conf_Code AS Confirmation_Code, 
-(SELECT SUM(c.Cost) 
- FROM Course c INNER JOIN Enroll_in e ON c.CourseID = e.CourseID
-    INNER JOIN Student s ON e.StudentID = s.StudentID
-    WHERE s.StudentId = '$id') AS Total_Spent
-    
-FROM Course c INNER JOIN Enroll_in e ON c.CourseID = e.CourseID
-    INNER JOIN Student s ON e.StudentID = s.StudentID
-WHERE s.StudentID = '$id'
-ORDER BY c.Name";
-
-
+        e.C_date AS Completion_Date, c.Cost AS Price, e.Conf_Code AS Confirmation_Code, 
+        (SELECT SUM(c.Cost) 
+        FROM Course c INNER JOIN Enroll_in e ON c.CourseID = e.CourseID
+        INNER JOIN Student s ON e.StudentID = s.StudentID
+        WHERE s.StudentId = '$id') AS Total_Spent
+        FROM Course c INNER JOIN Enroll_in e ON c.CourseID = e.CourseID
+        INNER JOIN Student s ON e.StudentID = s.StudentID
+        WHERE s.StudentID = '$id'
+        ORDER BY c.Name";
     $historyresult = mysqli_query($conn, $ahistory);
 
+    /*Creates table to display information */
     echo "<table class='pure-table'>
     <thead>
     <tr>
@@ -67,6 +67,7 @@ ORDER BY c.Name";
     </thead>
     <tbody>";
 
+    /*Print out information for all rows from SQL query statement */
     while($historyrow = mysqli_fetch_assoc($historyresult))
     {
             $coursename = $historyrow['Course_Name'];        

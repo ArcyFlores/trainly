@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <title>Questions</title>
@@ -30,7 +31,7 @@
     related to the user inputted course along with faculty first and last name who answered it and the answer it self. Show the number of likes of each question and order them by highest number of likes Test case: input "1"</h3>
 
 
-<!--This div can be deleted if it's not necessary-->
+<!--query that gets results for report 5-->
 
     <div class="sql-query">
     <p>SQL command: <br>
@@ -56,12 +57,13 @@ ORDER BY COUNT(sl.StudentID) DESC, cq.CQID<br>
 
     </p>
     </div>
-
+<!-- form to get results  -->
     <form method = "POST" class="pure-form" action = "ReportTask5.php">
         <input placeholder="Course ID" type="text" name ="CourseID" required>
         <input type="submit" class="pure-button" name= "report_task5_btn" value = "Search">
     </form>
-        
+       
+<!--  connect to db -->
 <?php
     session_start();
     $servername = "localhost";
@@ -72,6 +74,7 @@ ORDER BY COUNT(sl.StudentID) DESC, cq.CQID<br>
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 
+//        query db
     if (isset($_POST['report_task5_btn']))
     {
         $CourseID = mysql_real_escape_string($_POST['CourseID']);
@@ -97,7 +100,7 @@ ORDER BY COUNT(sl.StudentID) DESC, cq.CQID<br>
         GROUP BY cq.CQID, cq.CourseID
         ORDER BY COUNT(sl.StudentID) DESC, cq.CQID";
 
-
+// get results and display on DOM as table
         $result= mysqli_query($conn, $sql_reporttask5);
         #$row = mysqli_fetch_assoc($result);
         echo "<table class='pure-table'> 

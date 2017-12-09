@@ -1,4 +1,5 @@
 <?php
+// connect to db
     session_start();
 
     $servername = "localhost";
@@ -20,6 +21,7 @@
 </head>
         
 <body>
+<!--  navbar    -->
     <div class="header">
         <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
             <a class="pure-menu-heading" href="index.php">Trainly</a>
@@ -43,7 +45,7 @@
     </div>
     <div class="content top-buffer-xl">
           <?php
-    
+//     get info from login page to display user's name
         $email = $_SESSION['email'];
         $idsql = "SELECT s.StudentID FROM Student s WHERE s.Email = '$email'";
         $fnamesql = "SELECT s.F_Name FROM Student s WHERE s.Email = '$email'";
@@ -60,7 +62,7 @@
         $id = ($row['StudentID']);
         $fname = ($row2['F_Name']);
         $lname = ($row3['L_Name']);
-            
+//        enroll in a course task     
     $enrollcoursesql = "SELECT * FROM
         (SELECT c.Name AS Course_Name, c.Pri_Topic AS Primary_Topic, st.Topic AS Secondary_Topics, 'Enrolled' AS Category
         FROM ((Student s INNER JOIN Enroll_in e ON s.StudentID = e.StudentID)
@@ -130,7 +132,7 @@
         <h3 class="content-subhead">You are currently interested in:</h3>
         <p>
         <?php
-            
+//             dynamically create a table that displays courses a user is intereseted in 
                 echo "<table class='pure-table'>
                     <thead>
                         <tr>
@@ -181,7 +183,8 @@
            WHERE e.C_date IS NOT NULL AND s.StudentID = '$id'";
         
             $certresult = mysqli_query($conn, $cert);
-        
+    
+        // dynamically create a table that displays courses a user has completed  
         echo "<table class='pure-table'>
             <thead>
              <tr>
@@ -203,7 +206,7 @@
         <p>
 
           <?php
-
+// dynamically add table that displays courses 
             echo "<table class='pure-table'>
                  <thead>
                     <tr>
@@ -231,7 +234,7 @@
     <div class="l-box-lg pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
         <h3 class="content-subhead">Your Course Materials:</h3>
         <?php 
-        
+//     query to get all the course materials for a given student    
         $cmsql = "SELECT cm.Name AS Course_Material, IF(cc.cFlag =1, 'C', 'I') AS Complete_Incomplete
         FROM C_Material cm INNER JOIN Course c ON cm.CourseID = c.CourseID
         INNER JOIN CM_Complete cc ON cm.CMID = cc.CMID
@@ -258,7 +261,7 @@
 
         ?>
         </table><br>
-
+<!-- update course materials that are complete -->
         <?php
             if (isset($_POST['comp_btn']))
             {

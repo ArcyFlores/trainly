@@ -12,6 +12,7 @@
 4. Open XAMPP and run server, click on "Go To Application"
 5. Under PHPMyAdmin, hit "import" tab and upload DDL.sql to create trainly database and then upload DML.sql to create data
 6. While server is running, open site at localhost/trainly-master 
+[Youtube Walkthrough](https://youtu.be/KThqmof7SHY)
 
 ### Description of Program Files 
 
@@ -30,8 +31,7 @@ ReportTasks.php files are the reports required of the project.
 * **login.php** - login to the page  
 * **register.php** - sign up a new user
 
-### Youtube Links
-[youtube link 1](https://www.youtube.com)
+
 [youtube link 2](https://www.google.com)
 
 

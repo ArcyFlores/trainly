@@ -1,3 +1,9 @@
+
+<!-- Administrators main home page, 
+accesed after logging in -->
+
+
+<!-- connect to database -->
 <?php
     session_start();
 
@@ -8,10 +14,13 @@
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 ?>
 
+<!-- html body -->
 <html>
 <head>
     <title>Home</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
     <link rel="stylesheet" href="home.css">
 </head>
         
@@ -84,8 +93,8 @@
         
     $fresult = mysqli_query($conn, $faclist);
     
-    echo "FACULTY LIST";
-    echo "<table border =1><tr><td><b>First Name</td><td><b>Last Name</td><td><b>Title</td><td><b>Affiliation</td><td><b>Website</td></tr>";
+    echo "<h3 class='content-subhead'>FACULTY LIST</h3>";
+    echo "<table class='pure-table'><thead><tr><th><b>First Name</th><th><b>Last Name</th><th><b>Title</th><th><b>Affiliation</th><th><b>Website</th></tr></thead><tbody>";
     
     while ($frow = mysqli_fetch_assoc($fresult))
     {
@@ -97,15 +106,16 @@
         
         echo "<tr><td>".$ffname . "</td><td>" . $flname . "</td><td>" . $ftitle . "</td><td>" . $faffl . "</td><td>" . $fweb . "</td></tr>";
     }
-    echo "</table>";
+    echo "</tbody></table>";
     
     ?>
     
-    <form method = POST action = "">
-    <input type="text" name ="ftitle" placeholder= "Title">
-    <input type="text" name ="faffl" placeholder= "Affiliation">
-    <input type="text" name ="fweb" placeholder= "Website">
-    <input type="submit" name= "val_btn" value = "Validate">
+    <form class="pure-form" method = POST action = "">
+        <legend ></legend>
+        <input type="text" name ="ftitle" placeholder= "Title">
+        <input type="text" name ="faffl" placeholder= "Affiliation">
+        <input type="text" name ="fweb" placeholder= "Website">
+        <input type="submit" class="pure-button" name= "val_btn" value = "Validate">
     </form>
     
     <?php

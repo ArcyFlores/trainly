@@ -92,7 +92,6 @@
             <a class="pure-menu-heading" href="index.php">Trainly</a>
 
             <ul class="pure-menu-list">
-                <li class="pure-menu-item pure-menu"><a href="home.php" class="pure-menu-link">Home</a></li>
                 <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
                 <a href="#" id="menuLink1" class="pure-menu-link">Reports</a>
                 <ul class="pure-menu-children">

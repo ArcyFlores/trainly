@@ -1,3 +1,4 @@
+<!-- report task 1 -->
 <html>
     <head>
         <title>Faculty</title>
@@ -6,7 +7,7 @@
       <link rel="stylesheet" type="text/css" href="home.css">
     </head>
     <body>  
-
+<!-- header: nav-bar -->
     <div class="header">
         <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
             <a class="pure-menu-heading" href="index.php">Trainly</a>
@@ -30,7 +31,7 @@
        <h3 class="content-head">Report Task 1:</h3>
         <h3>Finding Faculty members who are Associate Professors and are responsible for creating more than one course.
         </h3>
-        
+<!--     sql query used in report 1     -->
         <div class="sql-query">
             <p>SQL command: <br>
             SELECT s.F_Name AS First_Name, s.L_Name AS Last_Name<br>
@@ -54,11 +55,11 @@
             </p>
             
         </div>
-
+<!-- retrieves query information from db  -->
         <form method = "POST" action = "ReportTask1.php">
             <input type="submit" class="pure-button" name= "report_task1_btn" value = "Click to Run">
         </form>
-
+<!-- connect to db -->
         <?php
         session_start();
         $servername = "localhost";
@@ -68,8 +69,8 @@
         $dbname = "Trainly";
 
         $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-        if (isset($_POST['report_task1_btn']))
+//runs query 
+       if (isset($_POST['report_task1_btn']))
         {
             
             $sql_reporttask1 = "SELECT s.F_Name AS First_Name, s.L_Name AS Last_Name FROM Student s WHERE s.StudentID IN (SELECT f.StudentID FROM Course c INNER JOIN F_Create fc ON c.CourseID = fc.CourseID INNER JOIN Faculty f ON fc.FacultyID = f.StudentID GROUP BY f.StudentID HAVING COUNT(c.CourseID) > 1) AND s.StudentID IN (SELECT f.StudentID FROM Faculty f WHERE f.Title LIKE \"Associate Professor\") ORDER BY s.F_Name, s.L_Name";
@@ -93,7 +94,7 @@
             echo "</tbody>
                   </table>";
         }
-
+// link to task 2
         echo "<br><a href=\"./ReportTask2.php\">Link to Report Task 2</a>";
     ?>
 

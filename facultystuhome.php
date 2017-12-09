@@ -1,11 +1,11 @@
 <?php
+    /*Information to connect to database*/
     session_start();
-
     $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "Trainly";
-
+    /*Connect to database*/
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 ?>
 
@@ -41,7 +41,7 @@
     </div>
     <div class="content top-buffer-xl">
           <?php
-    
+        /*Gets first name and last name as well as ID for current user*/
         $email = $_SESSION['email'];
         $idsql = "SELECT s.StudentID FROM Student s WHERE s.Email = '$email'";
         $fnamesql = "SELECT s.F_Name FROM Student s WHERE s.Email = '$email'";
@@ -58,17 +58,18 @@
         $id = ($row['StudentID']);
         $fname = ($row2['F_Name']);
         $lname = ($row3['L_Name']);
+        
+        /*Courses user is enrolled in*/
+        $enrollcoursesql = "SELECT * FROM
+            (SELECT c.Name AS Course_Name, c.Pri_Topic AS Primary_Topic, st.Topic AS Secondary_Topics, 'Enrolled' AS Category
+            FROM ((Student s INNER JOIN Enroll_in e ON s.StudentID = e.StudentID)
+            INNER JOIN Course c ON e.CourseID = c.CourseID)
+            INNER JOIN Sec_topic st ON c.CourseID = st.CourseID
+            WHERE s.StudentID = '$id'
+            ORDER BY e.Rating DESC
+            LIMIT 100) AS a";
             
-    $enrollcoursesql = "SELECT * FROM
-        (SELECT c.Name AS Course_Name, c.Pri_Topic AS Primary_Topic, st.Topic AS Secondary_Topics, 'Enrolled' AS Category
-        FROM ((Student s INNER JOIN Enroll_in e ON s.StudentID = e.StudentID)
-       INNER JOIN Course c ON e.CourseID = c.CourseID)
-       INNER JOIN Sec_topic st ON c.CourseID = st.CourseID
-       WHERE s.StudentID = '$id'
-       ORDER BY e.Rating DESC
-       LIMIT 100) AS a";
-            
-    $enrollcourseresult = mysqli_query($conn, $enrollcoursesql);
+        $enrollcourseresult = mysqli_query($conn, $enrollcoursesql);
         
     ?>
 
@@ -85,6 +86,7 @@
         <p>
         
         <?php
+            /*Prints out in table format a list of courses user is enrolled in with primary and secondary topics*/
                 echo "<table class='pure-table'>
                     <thead>
                     <tr>
@@ -95,10 +97,10 @@
                     <tbody>";
                 while($enrollcourserow = mysqli_fetch_assoc($enrollcourseresult))
                 {
-                $coursename = $enrollcourserow['Course_Name'];        
-                $pritopic = $enrollcourserow['Primary_Topic'];
-                $sectopic = $enrollcourserow['Secondary_Topics'];
-                echo "<tr><td>".$coursename."</td><td>".$pritopic."</td><td>".$sectopic."</td></tr>";  
+                    $coursename = $enrollcourserow['Course_Name'];        
+                    $pritopic = $enrollcourserow['Primary_Topic'];
+                    $sectopic = $enrollcourserow['Secondary_Topics'];
+                    echo "<tr><td>".$coursename."</td><td>".$pritopic."</td><td>".$sectopic."</td></tr>";  
                 }
 
 
@@ -116,6 +118,7 @@
     
     <!--INTERESTED COURSES*/-->
     <?php
+        /*Courses user is interested in*/
         $interestcoursesql = "(SELECT c.Name AS Course_Name, c.Pri_Topic AS Primary_Topic, st.Topic AS Secondary_Topics,'Interested' AS Category
         FROM ((Student s INNER JOIN Interest i ON s.StudentID = i.StudentID)
        INNER JOIN Course c ON i.CourseID = c.CourseID)
@@ -132,7 +135,7 @@
     <h3 class="content-subhead">You are currently interested in:</h3>
     <p>
     <?php
-        
+        /*Prints out in table format a list of courses user is interested in with primary and secondary topics*/
             echo "<table class='pure-table'><thead><tr><th>Course Name</th><th>Primary Topic</th><th>Secondary Topics</th></tr></thead><tbody>";
             while($interestcourserow = mysqli_fetch_assoc($interestcourseresult))
             {
@@ -158,6 +161,8 @@
     
     <!--COMPLETED COURSES*/-->
         <?php
+        
+        /*Courses user has completed in*/
         $compcoursesql = "SELECT c.Name AS Course_Name, c.Pri_Topic AS Primary_Topic, st.Topic AS Secondary_Topics,'Completed' AS Category
     FROM ((Student s INNER JOIN Enroll_in e ON s.StudentID = e.StudentID)
     INNER JOIN Course c ON e.CourseID = c.CourseID)
@@ -173,6 +178,7 @@
     <h4>Certificates</h4>
     <?php
     
+        /*courses user completed*/
         $cert = "SELECT c.Name AS Course_Name, e.C_date AS Completion_Date
         FROM Course c INNER JOIN Enroll_in e ON c.CourseID = e.CourseID
        INNER JOIN Student s ON e.StudentId = s.StudentID
@@ -180,6 +186,7 @@
     
         $certresult = mysqli_query($conn, $cert);
     
+    /*Prints out 'certificate' of course completion*/
     echo "<table class='pure-table'><thead><tr><th>Course Name</th><th>Completion Date</th></tr></thead><tbody>";
         while($certrow = mysqli_fetch_assoc($certresult))
         {
@@ -198,6 +205,7 @@
   <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
       <?php
 
+      /*Prints out in table format a list of courses user completed with primary and secondary topics*/
         echo "<table class='pure-table'><thead><tr><th>Course Name</th><th>Primary Topic</th><th>Secondary Topics</th></tr>";
         while($compcourserow = mysqli_fetch_assoc($compcourseresult))
         {
@@ -218,6 +226,7 @@
     <h3 class="content-subhead">Your Course Materials:</h3>
     <?php 
     
+    /*Course materials current user has*/
     $cmsql = "SELECT cm.Name AS Course_Material, IF(cc.cFlag =1, 'C', 'I') AS Complete_Incomplete
     FROM C_Material cm INNER JOIN Course c ON cm.CourseID = c.CourseID
     INNER JOIN CM_Complete cc ON cm.CMID = cc.CMID
@@ -238,6 +247,7 @@
 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
     <table class="pure-table"><thead><tr><th><b>Course Material</b></th><th><b>Complete/Incomplete</b></th></tr></thead>
         <?php
+        /*prints out course material names along with completion flag*/
         while ($cmrow = mysqli_fetch_assoc($cmresult))
         {
             ?>
@@ -248,10 +258,13 @@
     </table><br>
 
     <?php
+        /*Checks is user set a material as compete*/
         if (isset($_POST['comp_btn']))
         {
+            /*assigns cname to user inputted course name*/
             $cname = mysql_real_escape_string($_POST['course']);
             
+            /*Sets coursematerial as complete and checks if course is completed after that*/
             $markcomp = "UPDATE CM_Complete
                 INNER JOIN C_Material ON CM_Complete.CMID = C_Material.CMID
                 INNER JOIN Student ON CM_Complete.StudentID = Student.StudentID

@@ -253,11 +253,14 @@
 
         <table class="pure-table"><thead><tr><th><b>Course Material</b></th><th><b>Complete/Incomplete</b></th></tr></thead>
             <?php
-            while ($cmrow = mysqli_fetch_assoc($cmresult))
+            
+            while($cmarow = mysqli_fetch_assoc($cmresult))
             {
-                ?>
-                <p> <?php $cmrow['Course_Material'] . "  " . $cmrow['Complete_Incomplete'] . "<br>"?> </p>
-            <?php }
+                $coursemname = $cmarow['Course_Material'];        
+                $cflag = $cmarow['Complete_Incomplete'];
+                echo "<tr><td>".$coursemname."</td><td>".$cflag."</td></tr>"; 
+
+            }
 
         ?>
         </table><br>

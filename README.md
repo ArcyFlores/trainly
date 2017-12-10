@@ -13,7 +13,7 @@
 5. Under PHPMyAdmin, hit "import" tab and upload DDL.sql to create trainly database and then upload DML.sql to create data
 6. While server is running, open site at localhost/trainly-master 
 
-* **[Youtube Walkthrough]**(https://youtu.be/KThqmof7SHY)
+* [Youtube Walkthrough](https://youtu.be/KThqmof7SHY)
 
 ### Description of Program Files 
 

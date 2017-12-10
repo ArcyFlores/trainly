@@ -84,7 +84,7 @@
         }
         
         /*goes back to home page to display updated information */
-        //header("Location: home.php");
+        header("Location: home.php");
     }
 ?>
 

@@ -57,10 +57,34 @@
             $sql = "INSERT INTO enroll_in (StudentID, CourseID, Conf_Code, Date, Time) VALUES ('$id', '$cid', '$conf_code', '$date' , '$time')";
             $result = mysqli_query($conn, $sql);
             echo "You have been successfully enrolled";
+            
+            
+            
+            
+            $cmsql = "SELECT cm.CMID AS CMID FROM C_Material cm INNER JOIN Course c ON cm.CourseID = c.CourseID WHERE c.CourseID = '$cid'";
+            
+            $cmresult = mysqli_query($conn, $cmsql);
+            
+            $cmid = array();
+            
+            while ($cmrow = mysqli_fetch_assoc($cmresult))
+            {
+                array_push($cmid, $cmrow['CMID']);
+            }
+            
+            for ($x = 0; $x < sizeof($cmid); $x++)
+            {
+                $newcmid = $cmid[$x];
+                $insertcmsql = "INSERT INTO CM_Complete (CMID, CourseID, StudentID, cFlag) VALUES ('$newcmid', '$cid', '$id', 0)";
+                
+                $insertresul = mysqli_query($conn, $insertcmsql);
+  
+            }
+            
         }
         
         /*goes back to home page to display updated information */
-        header("Location: home.php");
+        //header("Location: home.php");
     }
 ?>
 

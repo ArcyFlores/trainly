@@ -294,6 +294,8 @@
                 
                 $markresult = mysqli_query($conn, $markcomp);
                 $compresult = mysqli_query($conn, $compcourse);
+                
+                header("Location: Refresh:0");
             }
         ?>
         

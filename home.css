@@ -28,13 +28,16 @@ th{
 }
 
 .sql-query{
-    font-size: 12px;
+    font-size: 15px;
     line-height: 15px;
     padding-left: 15px;
+    padding-right: 10px;
     border-style: solid; 
     border-width: 1px;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    width: 50%;
+    
 }
 
 .pure-img-responsive {

@@ -27,27 +27,19 @@
     </div>
    <div class="container-padding bottom-padding">
        <h3 class="content-head">Report Task 2:</h3>
-   <h3>NEEDS USER INPUT Find Students in USER INPUTED COURSE NAME that have an average over 80% in quiz scores. Test case: input "CourseName1"</h3>
-
-
+   <h3>Find Students that have 
+    an average over 80% in their quiz scores</h3>
+    
+    
     <!--query for 2nd report-->
 
         <div class="sql-query">
-        <p>SQL command: <br>
-    SELECT s.F_Name AS First_Name, s.L_Name AS Last_Name, ROUND(AVG(cc.Score),2) AS Average_Score<br>
-    FROM Student s INNER JOIN CM_Complete cc ON s.StudentID = cc.StudentID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN C_Material cm ON cc.CMID = cm.CMID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Course c ON cm.CourseID = c.CourseID<br>
-    WHERE cm.CMID IN <br>
-    (   SELECT cm.CMID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;FROM Student s INNER JOIN CM_Complete cc ON s.StudentID =   cc.StudentID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN C_Material cm ON cc.CMID = cm.CMID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Quiz q ON q.CMID = cm.CMID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;WHERE cm.CMID = q.CMID) AND c.Name = ?<br>
-    GROUP BY s.StudentID<br>
-    HAVING (AVG(cc.Score) > 80)<br>
-    ORDER BY s.L_Name, s.F_Name<br><br>
-        </p>
+        <h4>Motivation:</h4>
+       <p> In certain courses, having a quiz average over 80 percent
+        will automatically give you 100 on the final so finding which students 
+        who have recieved an average score above 80
+        on course materials of type quiz is important to help create
+        the list of students exempt</p>
         </div>
 
         <form class="pure-form" method = "POST" action = "ReportTask2.php">

@@ -28,8 +28,8 @@
    <div class="container-padding bottom-padding">
        <h3 class="content-head">Report Task 3:</h3>
    <h3>Get student full names that got below a 70 in a quiz
-    grade. Along with student name, list professors 
-    full name along with the corresponding course
+    grade. Along <br>with student name, list professors 
+    full name along with the corresponding <br>course
     and all topics associated with a course including 
     secondary topics</h3> 
 
@@ -37,42 +37,15 @@
 <!--query to get results to 3rd report-->
 
     <div class="sql-query">
-    <p>SQL command: <br>
-
-SELECT DISTINCT s.F_Name AS Student_First_Name, s.L_Name AS Student_Last_Name, s1.F_Name AS Faculty_First_Name, s1.L_Name AS Faculty_Last_Name,
-c.Name Course_Name, c.Pri_Topic Primary_Topic, st.Topic AS Secondary_Topics<br>
-FROM Course c INNER JOIN Sec_topic st ON c.CourseID = st.CourseID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN F_Create fc ON c.CourseID = fc.CourseID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Faculty f ON fc.FacultyID = f.StudentID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Student s1 ON f.StudentID = s1.StudentID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Enroll_in e ON c.CourseID = c.CourseID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Student s ON e.StudentID = s.StudentID<br>
-WHERE c.CourseID <br>
-IN <br>
-(<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;SELECT  c.CourseID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;FROM Course c INNER JOIN C_Material cm ON c.CourseID = cm.CourseID<br>
-         &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Quiz q ON cm.CMID = q.CMID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;WHERE cm.CMID = q.CMID<br>
-)<br>
-AND<br>
-c.CourseID IN <br>
-(<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;SELECT c.CourseID <br>
-     &nbsp;&nbsp;&nbsp;&nbsp;FROM Course c INNER JOIN C_Material cm ON c.CourseID = cm.CourseID<br>
-         &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN CM_Complete cc ON cm.CMID = cc.CMID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;WHERE cc.Score < 70<br>
-)<br>
-AND <br>
-s.StudentID IN<br>
-(<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;SELECT s.StudentID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;FROM Student s INNER JOIN CM_Complete cc ON s.StudentID = cc.StudentID<br>
-         &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Quiz q ON cc.CMID = q.CMID<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;WHERE cc.CMID = q.CMID AND cc.Score < 70<br>
-)<br>
-ORDER BY c.Name, s1.F_Name, s1.L_Name<br>
-    </p>
+    <h4>Motivation:</h4>
+    <p>The adminstration needs to be worried when students are getting below a certain
+        grade in quiz grades that test their knowledge on course topics. So associating the 
+        name of the student and the name of the professor along with the topics
+        necessary to get higher quiz grades. Right now, since it is a small database so all students
+        who get lower than a certain grade are flagged, however it could be more valubale
+        later on to only flag students in courses in which a signficant number of students
+        are getting low grades so that the adminstration and professor can take the 
+        necessary actions to further develop the course topics.</p>
     </div>
 
     <form method = "POST" action = "ReportTask3.php">

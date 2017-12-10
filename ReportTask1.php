@@ -29,30 +29,12 @@
 
      <div class="container-padding bottom-padding">
        <h3 class="content-head">Report Task 1:</h3>
-        <h3>Finding Faculty members who are Associate Professors and are responsible for creating more than one course.
-        </h3>
+        <h3>Find Faculty members who are Associate Professors and are<br> responsible for creating more than one course</h3>
 <!--     sql query used in report 1     -->
         <div class="sql-query">
-            <p>SQL command: <br>
-            SELECT s.F_Name AS First_Name, s.L_Name AS Last_Name<br>
-            FROM Student s<br>
-            WHERE s.StudentID IN<br>
-            (   <br>
-            &nbsp;&nbsp;&nbsp;&nbsp;SELECT f.StudentID<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;FROM Course c INNER JOIN F_Create fc ON c.CourseID = fc.CourseID<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Faculty f ON fc.FacultyID = f.StudentID<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;GROUP BY f.StudentID<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;HAVING COUNT(c.CourseID) > 1<br>
-            )<br>
-            AND <br>
-            s.StudentID IN<br>
-            (<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;SELECT f.StudentID<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;FROM Faculty f<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;WHERE f.Title LIKE "Associate Professor"<br>
-            )<br>
-            ORDER BY s.F_Name, s.L_Name<br>
-            </p>
+            <h4>Motivation:</h4> 
+           <p>Find faculty who are associate professors who could be promoted by viewing their work efforts,
+              in this case, being responsible for the number of classes they created. </p>
             
         </div>
 <!-- retrieves query information from db  -->

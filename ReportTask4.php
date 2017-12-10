@@ -28,42 +28,19 @@
     </div>
    <div class="container-padding bottom-padding">
        <h3 class="content-head">Report Task 4:</h3>
-   <h3>Get a user inputted students incomplete materials that s/he included in playlists they created. List the playlist id along with the course material name and the number of unique incomplete tasks. Test case: We need to change some data in cm_complete table, for example, change the cFlag of CMID 11 to 0, then input "1"</h3>
+   <h3>Get a user inputted students incomplete materials that s/he included in playlists they created. List the playlist id along with the course material name and the number of unique incomplete tasks.</h3>
 
 <!--sql code that gets result for report 4-->
 
     <div class="sql-query">
-    <p>SQL command: <br>
-SELECT DISTINCT p.PID, cm.Name, c.Name, 
-(SELECT COUNT(cm.CMID)
-&nbsp;&nbsp;&nbsp;&nbsp;FROM C_Material cm INNER JOIN Course c ON cm.CourseID = c.CourseID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN CM_Complete cc ON cm.CMID = cc.CMID AND cc.CourseID = c.CourseID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Student s ON s.StudentID = cc.StudentID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;WHERE cc.cFlag = 0 AND s.StudentID = ?)  AS <br>Num_of_Incomplete_Materials
-FROM Playlist p INNER JOIN C_Material cm ON p.CMID = cm.CMID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Course c ON cm.CourseID = c.CourseID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN CM_Complete cc ON cm.CMID = cc.CMID AND cc.CourseID = c.CourseID<br>
-WHERE cc.CMID IN <br>
-&nbsp;&nbsp;&nbsp;&nbsp;(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;SELECT cm.CMID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;FROM C_Material cm INNER JOIN Course c ON cm.CourseID = c.CourseID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN CM_Complete cc ON cm.CMID = cc.CMID AND cc.CourseID = c.CourseID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Student s ON s.StudentID = cc.StudentID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;WHERE cc.cFlag = 0 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;AND <br>
-&nbsp;&nbsp;&nbsp;&nbsp;cc.CMID IN <br>
-&nbsp;&nbsp;&nbsp;&nbsp;(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;SELECT cm.CMID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;FROM C_Material cm INNER JOIN Course c ON cm.CourseID = c.CourseID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN CM_Complete cc ON cm.CMID = cc.CMID AND cc.CourseID = c.CourseID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Student s ON s.StudentID = cc.StudentID<br>
-&nbsp;&nbsp;&nbsp;&nbsp;WHERE s.StudentID = ?<br>
-&nbsp;&nbsp;&nbsp;&nbsp;)<br>
-ORDER BY p.PID, cm.CMID<br><br>
-
-
-    </p>
+    <h4>Motivation:</h4>
+    <p>Students have a list of course materials in a playlist, it can be 
+        viewed as a to-do list. Students can be interested in only the 
+        materials that are incomplete so having a list of the materials
+        of course materials with their corresponding playlist to give 
+        the student a sense of the required tasks, also shows the numbers
+        of unique incomplete materials just in case a user has the same
+        item in multiple playlists.</p>
     </div>
 
     <form class="pure-form" method = "POST" action = "ReportTask4.php">

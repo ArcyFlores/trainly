@@ -49,7 +49,7 @@ accesed after logging in -->
         </div>
     </div>
     <div class="content">
-    
+    <!-- read email information after logging in -->
     <?php
         
         $email = $_SESSION['email'];
@@ -69,6 +69,7 @@ accesed after logging in -->
         $fname = ($row2['F_Name']);
         $lname = ($row3['L_Name']);
             
+    // enroll in course where user id is paramater
     $enrollcoursesql = "SELECT * FROM
         (SELECT c.Name AS Course_Name, c.Pri_Topic AS Primary_Topic, st.Topic AS Secondary_Topics, 'Enrolled' AS Category
         FROM ((Student s INNER JOIN Enroll_in e ON s.StudentID = e.StudentID)
@@ -77,12 +78,12 @@ accesed after logging in -->
        WHERE s.StudentID = '$id'
        ORDER BY e.Rating DESC
        LIMIT 100) AS a";
-            
+    // display enrool course result       
     $enrollcourseresult = mysqli_query($conn, $enrollcoursesql);
         
     ?>
     
-   <br><h4>Welcome <?php echo $fname . " " . $lname; ?></h4>
+    <br><h2 class="content-head is-center">Welcome <?php echo $fname . " " . $lname; ?></h2>
     <h5>Admin ID#: <?php echo $_SESSION['StudentID']; ?></h5>
     
     
@@ -111,11 +112,13 @@ accesed after logging in -->
     ?>
     
     <form class="pure-form" method = POST action = "">
-        <legend ></legend>
-        <input type="text" name ="ftitle" placeholder= "Title">
-        <input type="text" name ="faffl" placeholder= "Affiliation">
-        <input type="text" name ="fweb" placeholder= "Website">
-        <input type="submit" class="pure-button" name= "val_btn" value = "Validate">
+        <fieldset>
+            <input type="text" name ="ftitle" placeholder= "Title">
+            <input type="text" name ="faffl" placeholder= "Affiliation">
+            <input type="text" name ="fweb" placeholder= "Website">
+            <input type="submit" class="pure-button" name= "val_btn" value = "Validate">
+        </fieldset>
+       
     </form>
     
     <?php
@@ -143,8 +146,8 @@ accesed after logging in -->
         
     $aresult = mysqli_query($conn, $adlist);
     
-    echo "ADMIN LIST";
-    echo "<table border =1><tr><td><b>ID</td><td><b>First Name</td><td><b>Last Name</td></td></tr>";
+    echo "<h3 class='content-subhead'>ADMIN LIST</h3>";
+    echo "<table class='pure-table'><thead><tr><th>ID</th><th>First Name</th><th>Last Name</th></th></tr></thead><tbody>";
     
     while ($arow = mysqli_fetch_assoc($aresult))
     {
@@ -154,7 +157,7 @@ accesed after logging in -->
         
         echo "<tr><td>".$aid . "</td><td>" . $af . "</td><td>" . $al . "</td></tr>";
     }
-    echo "</table>";
+    echo "</tbody></table>";
     
         if (isset($_POST['aval_btn']))
     {
@@ -165,9 +168,11 @@ accesed after logging in -->
     
     ?>
     
-    <form method = POST action = "">
-    <input type="text" name ="aid" placeholder= "ID">
-    <input type="submit" name= "aval_btn" value = "Validate">
+    <form class="pure-form pure-form-aligned" method = POST action = "">
+        <fieldset>
+            <input type="text" name ="aid" placeholder= "ID">
+            <input type="submit" class="pure-button" name= "aval_btn" value = "Validate">
+        </fieldset>
     </form>
     
 </body>

@@ -28,34 +28,17 @@
    <div class="container-padding bottom-padding">
     <h3 class="content-head">Report Task 5:</h3>
     <h3>Produce a list of course material questions
-    related to the user inputted course along with faculty first and last name who answered it and the answer it self. Show the number of likes of each question and order them by highest number of likes Test case: input "1"</h3>
+    related to the user inputted course along with faculty first and last name who answered it and the answer it self. Show the number of likes of each question and order them by highest number of likes.</h3>
 
 
 <!--query that gets results for report 5-->
 
     <div class="sql-query">
-    <p>SQL command: <br>
-
-SELECT s.F_Name, s.L_Name, cq.Context, j.Answer, COUNT(sl.StudentID) AS Num_of_Likes<br>
-FROM Student s INNER JOIN Faculty f ON s.StudentID = f.StudentID<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Judge j ON f.StudentID = j.F_ID<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN C_Question cq ON j.CQID = cq.CQID AND j.CourseID = cq.CourseID<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN s_like sl ON cq.CQID = sl.CQID AND cq.CourseID= sl.CourseID<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;INNER JOIN Student s1 ON sl.StudentID = s1.StudentID<br>
-WHERE j.CQID IN (<br>
-
-SELECT j.CQID <br>
-FROM Judge j INNER JOIN C_Question cq ON j.CQID = cq.CQID<br>
-WHERE cq.CQID IN (<br>
-
-SELECT cq.CQID<br>
-FROM C_Question cq INNER JOIN Course c ON cq.CourseID = c.CourseID<br>
-WHERE c.CourseID = ? )<br>
-)<br>
-GROUP BY cq.CQID, cq.CourseID<br>
-ORDER BY COUNT(sl.StudentID) DESC, cq.CQID<br>
-
-    </p>
+    <h4>Motivation:</h4>
+    <p>Based on the User selected course name, all related questions to the
+        course materials are shown with their respective answers, so the user
+        is able to see if his/her doubts have been addressed before submitting
+        a new question.</p>
     </div>
 <!-- form to get results  -->
     <form method = "POST" class="pure-form" action = "ReportTask5.php">

@@ -1,12 +1,28 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Marketplace
+Explore
+ @noufinho
+ Sign out
+ Unwatch 3
+  Star 0  Fork 0 ArcyFlores/trainly Private
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights
+Tree: 2fdba35ba5 Find file Copy pathtrainly/home.php
+2fdba35  a day ago
+@ArcyFlores ArcyFlores comments to home page
+1 contributor
+RawBlameHistory      
+Executable File  314 lines (253 sloc)  12.3 KB
 <?php
 // connect to db
     session_start();
-
     $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "Trainly";
-
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 ?>
 
@@ -103,7 +119,6 @@
                     $sectopic = $enrollcourserow['Secondary_Topics'];
                     echo "<tr><td>".$coursename."</td><td>".$pritopic."</td><td>".$sectopic."</td></tr>";  
                     }
-
                 echo " </tbody></table>";
                 
             ?>
@@ -137,7 +152,7 @@
                     <thead>
                         <tr>
                         <th>Course Name</th>
-                        <th><b>Primary Topic</th>
+                        <th>Primary Topic</th>
                         <th>Secondary Topics</th>
                         </tr>
                     </thead>
@@ -149,14 +164,13 @@
                     $sectopic = $interestcourserow['Secondary_Topics'];
                     echo "<tr><td>".$coursename."</td><td>".$pritopic."</td><td>".$sectopic."</td></tr>";   
                 }  
-
             echo "</tbody></table>";
             
         ?>
             
         </p>
 
-        <h3 class="content-subhead">To add to your course interests, click <a href="interest.php" class="pure-button">here.</a>
+        <h3 class="content-subhead">To add to your course interests, click <a href="interest.php" class="pure-button">here.</a></h3>
     </div>
 
         
@@ -175,6 +189,7 @@
     <div class="l-box-lg pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
         <h3 class="content-subhead">You have completed:</h3>
         <h4>Certificates</h4>
+        <p>
         <?php
         
             $cert = "SELECT c.Name AS Course_Name, e.C_date AS Completion_Date
@@ -189,7 +204,7 @@
             <thead>
              <tr>
                 <th>Course Name</th>
-                <th><b>Completion Date</th>
+                <th>Completion Date</th>
                 </tr>
             </thead>
             <tbody>";
@@ -198,11 +213,14 @@
                 $coursename = $certrow['Course_Name'];        
                 $compdate = $certrow['Completion_Date'];
                 
-                "<tr><td>".$coursename."</td><td>".$compdate."</td></tr>"; 
+                echo "<tr><td>".$coursename."</td><td>".$compdate."</td></tr>"; 
             }
             
         echo "</tbody></table>"; 
+        
         ?>
+        
+        </p>
         <p>
 
           <?php
@@ -222,7 +240,6 @@
                 $pritopic = $compcourserow['Primary_Topic'];
                 $sectopic = $compcourserow['Secondary_Topics'];
                 echo "<tr><td>".$coursename."</td><td>".$pritopic."</td><td>".$sectopic."</td></tr>"; 
-
             }
         
         echo "</tbody></table>";
@@ -253,20 +270,18 @@
 
         <table class="pure-table"><thead><tr><th><b>Course Material</b></th><th><b>Complete/Incomplete</b></th></tr></thead>
             <?php
-            
-            while($cmarow = mysqli_fetch_assoc($cmresult))
+             while($cmarow = mysqli_fetch_assoc($cmresult))
             {
                 $coursemname = $cmarow['Course_Material'];        
                 $cflag = $cmarow['Complete_Incomplete'];
                 echo "<tr><td>".$coursemname."</td><td>".$cflag."</td></tr>"; 
 
             }
-
         ?>
         </table><br>
 <!-- update course materials that are complete -->
         <?php
-            if (isset($_POST['comp_btn']))
+             if (isset($_POST['comp_btn']))
             {
                 $cname = mysql_real_escape_string($_POST['course']);
                 
@@ -275,6 +290,16 @@
                     INNER JOIN Student ON CM_Complete.StudentID = Student.StudentID
                     SET CM_Complete.cFlag = 1, CM_Complete.Date = CURDATE(), CM_Complete.Time = CURTIME()
                     WHERE Student.StudentID = '$id' AND C_Material.Name = '$cname'";
+                
+                
+                $markresult = mysqli_query($conn, $markcomp);
+                
+                $selectcoursesql = "SELECT c.CourseID AS CourseID From Course c INNER JOIN C_Material cm ON c.CourseID = cm.CourseID
+                WHERE cm.Name = '$cname'";
+                $selectresult = mysqli_query($conn, $selectcoursesql);
+                $courseidrow = mysqli_fetch_array($selectresult);
+                
+                $courseid = $courseidrow['CourseID'];
                 
                 $compcourse = "SELECT IF 
                     ( 
@@ -287,15 +312,30 @@
                   FROM CM_Complete cc INNER JOIN C_Material cm ON cc.CMID = cm.CMID
                      INNER JOIN Student s ON cc.StudentID = s.StudentID
                   INNER JOIN Course c ON c.CourseID = cm.CourseID
-                  WHERE s.StudentID = '$id' AND c.CourseID = '$cname'
+                  WHERE s.StudentID = '$id' AND c.CourseID = '$courseid'
                ) 
-               , 'Course Completed' , 'Incomplete Course Materials'
+               , 'C' , 'I'
             ) AS Complete_Incomplete";
                 
-                $markresult = mysqli_query($conn, $markcomp);
+       
                 $compresult = mysqli_query($conn, $compcourse);
                 
-                header("Location: Refresh:0");
+                $compcourserow = mysqli_fetch_array($compresult);
+    
+                
+                    if ($compcourserow['Complete_Incomplete'] == 'C')
+                    {
+                        $completesql = "UPDATE Enroll_in
+                        INNER JOIN Student s ON s.StudentId = Enroll_in.StudentID
+                        INNER JOIN Course ON Course.CourseID = Enroll_in.CourseID
+                        SET C_date = CURDATE(), C_time = CURTIME() WHERE s.StudentID = '$id' AND Course.CourseID = '$courseid'";
+                        
+                        $completeresule = mysqli_query($conn, $completesql);
+                        
+                    }
+                
+                
+                //header("Location: Refresh:0");
             }
         ?>
         

@@ -233,18 +233,12 @@
     <div class="l-box-lg pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
         <h3 class="content-subhead">Your Course Materials:</h3>
         <?php 
-//     query to get all the course materials for a given student    
+//     query to get all the course materials for a given student  
+        
         $cmsql = "SELECT cm.Name AS Course_Material, IF(cc.cFlag =1, 'C', 'I') AS Complete_Incomplete
-        FROM C_Material cm INNER JOIN Course c ON cm.CourseID = c.CourseID
-        INNER JOIN CM_Complete cc ON cm.CMID = cc.CMID
-        INNER JOIN Student s ON s.StudentID = cc.StudentID
-        WHERE c.CourseID IN 
-        (
-           SELECT c.CourseID
-           FROM Course c INNER JOIN Enroll_in e ON c.CourseID = e.CourseID
-            INNER JOIN Student s ON e.StudentID = s.StudentID
-           WHERE s.StudentID = '$id'
-        ) AND s.StudentID = '$id'";
+        FROM C_Material cm INNER JOIN CM_Complete cc ON cm.CMID = cc.CMID AND cm.CourseID= cc.CourseID
+        
+        WHERE cc.StudentID = '$id'";
             
         $cmresult = mysqli_query($conn, $cmsql);
         
@@ -287,10 +281,10 @@
                (
                   SELECT COUNT(cm.CMID)
                   FROM C_Material cm INNER JOIN Course c ON cm.CourseID = c.CourseID
-                  WHERE c.CourseID = 1) = 
+                  WHERE c.CourseID = '$courseid') = 
                (
                   SELECT SUM(cc.cFlag)
-                  FROM CM_Complete cc INNER JOIN C_Material cm ON cc.CMID = cm.CMID
+                  FROM CM_Complete cc INNER JOIN C_Material cm ON cc.CMID = cm.CMID AND cc.CourseID =cm.CourseID
                      INNER JOIN Student s ON cc.StudentID = s.StudentID
                   INNER JOIN Course c ON c.CourseID = cm.CourseID
                   WHERE s.StudentID = '$id' AND c.CourseID = '$courseid'
@@ -316,7 +310,7 @@
                     }
                 
                 
-                header("Location: Refresh:0");
+                //header("Location: Refresh:0");
             }
         ?>
         

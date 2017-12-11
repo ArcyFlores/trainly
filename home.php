@@ -1,21 +1,4 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Marketplace
-Explore
- @noufinho
- Sign out
- Unwatch 3
-  Star 0  Fork 0 ArcyFlores/trainly Private
- Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights
-Tree: 2fdba35ba5 Find file Copy pathtrainly/home.php
-2fdba35  a day ago
-@ArcyFlores ArcyFlores comments to home page
-1 contributor
-RawBlameHistory      
-Executable File  314 lines (253 sloc)  12.3 KB
+
 <?php
 // connect to db
     session_start();
@@ -335,7 +318,7 @@ Executable File  314 lines (253 sloc)  12.3 KB
                     }
                 
                 
-                //header("Location: Refresh:0");
+                header("Location: Refresh:0");
             }
         ?>
         

@@ -13,7 +13,7 @@
 5. Under PHPMyAdmin, hit "import" tab and upload DDL.sql to create trainly database and then upload DML.sql to create data
 6. While server is running, open site at localhost/trainly-master 
 
-* [Youtube Walkthrough](https://youtu.be/KThqmof7SHY)
+* [HowTo Walkthrough](https://youtu.be/KThqmof7SHY)
 
 ### Description of Program Files 
 
@@ -33,6 +33,6 @@ ReportTasks.php files are the reports required of the project.
 * **register.php** - sign up a new user
 
 
-[youtube link 2](https://www.google.com)
+* [Tasks/Reports](https://youtu.be/tRRkFwFp2Sk)
 
 
